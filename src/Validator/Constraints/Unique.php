@@ -28,11 +28,6 @@ class Unique extends Constraint
         parent::__construct($options, $groups, $payload);
     }
 
-    public function getRequiredOptions(): array
-    {
-        return ['entity', 'field'];
-    }
-
     public function validatedBy(): string
     {
         return static::class.'Validator';

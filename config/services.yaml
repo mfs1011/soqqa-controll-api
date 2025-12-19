@@ -21,3 +21,11 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    App\Security\JwtTokenService:
+        arguments:
+            $privateKeyPath: '%kernel.project_dir%/config/jwt/private.pem'
+            $publicKeyPath: '%kernel.project_dir%/config/jwt/public.pem'
+            $passphrase: '%env(JWT_PASSPHRASE)%'
+            $accessTokenPeriod: '%env(string:JWT_ACCESS_PERIOD)%'
+            $refreshTokenPeriod: '%env(string:JWT_REFRESH_PERIOD)%'
