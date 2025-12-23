@@ -32,7 +32,7 @@ class JwtAuthenticator extends AbstractAuthenticator
         $decoded = $this->jwtService->decode($token);
 
         return new SelfValidatingPassport(
-            new UserBadge($decoded['user_id'], fn ($id) => $this->users->loadUserByIdentifier($id))
+            new UserBadge($decoded['email'], fn ($id) => $this->users->loadUserByIdentifier($id))
         );
     }
 

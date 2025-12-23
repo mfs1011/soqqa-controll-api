@@ -22,7 +22,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 
-#[Route('/users', name: 'users')]
+#[Route('/api/users', name: 'users')]
 final class UserController extends AbstractController
 {
     #[Route('', methods: ["GET"])]
