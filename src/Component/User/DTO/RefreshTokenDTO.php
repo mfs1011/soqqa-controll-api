@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Component\DTO;
+namespace App\Component\User\DTO;
 
 final readonly class RefreshTokenDTO
 {

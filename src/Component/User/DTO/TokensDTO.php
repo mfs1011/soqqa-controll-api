@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Component\DTO;
+namespace App\Component\User\DTO;
 
 use Symfony\Component\Serializer\Attribute\Groups;
 

@@ -32,6 +32,7 @@ security:
             pattern: ^/api
             stateless: true
             provider: app_user_provider
+            entry_point: App\Security\JwtEntryPoint
             custom_authenticator:
                 - App\Security\JwtAuthenticator
 

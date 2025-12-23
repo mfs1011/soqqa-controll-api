@@ -2,7 +2,7 @@
 
 namespace App\Security;
 
-use App\Component\DTO\TokensDTO;
+use App\Component\User\DTO\TokensDTO;
 use App\Entity\User;
 use DateInterval;
 use DateTimeImmutable;

@@ -1,23 +1,15 @@
 <?php
 
-declare(strict_types=1);
+namespace App\Component\User\DTO;
 
-namespace App\Component\DTO;
-
-use App\Entity\User;
-use App\Validator\Constraints\Unique;
-use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Attribute\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
-final readonly class UserCreateDTO
+final readonly class UserAuthDTO
 {
     public function __construct(
         #[Assert\NotBlank]
         #[Assert\Email]
-        #[Unique(
-            entity: User::class,
-            field: 'email',
-        )]
         #[Groups(['user:write'])]
         private string $email,
 

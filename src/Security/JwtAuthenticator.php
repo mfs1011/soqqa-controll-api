@@ -12,13 +12,22 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
+use Symfony\Component\Security\Http\EntryPoint\AuthenticationEntryPointInterface;
 
-class JwtAuthenticator extends AbstractAuthenticator
+class JwtAuthenticator extends AbstractAuthenticator implements AuthenticationEntryPointInterface
 {
     public function __construct(
         private readonly JwtTokenService $jwtService,
         private readonly UserProviderInterface $users
     ) {}
+
+    public function start(Request $request, ?AuthenticationException $authException = null): Response
+    {
+        return new JsonResponse([
+            'status' => 'error',
+            'message' => 'Authentication required',
+        ], Response::HTTP_UNAUTHORIZED);
+    }
 
     public function supports(Request $request): ?bool
     {
@@ -27,18 +36,36 @@ class JwtAuthenticator extends AbstractAuthenticator
 
     public function authenticate(Request $request): SelfValidatingPassport
     {
-        $token = str_replace('Bearer ', '', $request->headers->get('Authorization'));
+        $header = $request->headers->get('Authorization');
 
-        $decoded = $this->jwtService->decode($token);
+        if (!$header || !str_starts_with($header, 'Bearer ')) {
+            throw new AuthenticationException('No Bearer token');
+        }
+
+        $token = substr($header, 7);
+
+        try {
+            $decoded = $this->jwtService->decode($token);
+        } catch (\Throwable $e) {
+            // 🔥 MUHIM QISM
+            throw new AuthenticationException('Invalid or expired token', 0, $e);
+        }
 
         return new SelfValidatingPassport(
-            new UserBadge($decoded['email'], fn ($id) => $this->users->loadUserByIdentifier($id))
+            new UserBadge(
+                $decoded['email'],
+                fn (string $email) => $this->users->loadUserByIdentifier($email)
+            )
         );
     }
 
+
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?JsonResponse
     {
-        return new JsonResponse(['error' => 'Invalid token'], Response::HTTP_UNAUTHORIZED);
+        return new JsonResponse([
+            'status' => 'error',
+            'error' => 'Invalid token'
+        ], Response::HTTP_UNAUTHORIZED);
     }
 
     public function onAuthenticationSuccess(Request $request, $token, string $firewallName): ?JsonResponse

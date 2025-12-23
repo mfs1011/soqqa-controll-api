@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Component\DTO\RefreshTokenDTO;
-use App\Component\DTO\RefreshTokenRequestDTO;
-use App\Component\DTO\UserAuthDTO;
-use App\Component\DTO\UserCreateDTO;
+use App\Component\User\DTO\RefreshTokenDTO;
+use App\Component\User\DTO\RefreshTokenRequestDTO;
+use App\Component\User\DTO\UserAuthDTO;
+use App\Component\User\DTO\UserCreateDTO;
+use App\Component\User\DTO\UserDTO;
 use App\Component\User\Exception\AuthException;
 use App\Component\User\UserFactory;
 use App\Component\User\UserManager;
@@ -95,6 +96,12 @@ final class UserController extends AbstractController
         }
 
         return $this->success($tokenGenerator->create($user));
+    }
+
+    #[Route('/me', methods: ["GET"])]
+    public function me(): Response
+    {
+        return $this->success($this->getUser(), context: ['groups' => ['user:me:read']]);
     }
 
     /**
