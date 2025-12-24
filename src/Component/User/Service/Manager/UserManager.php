@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Component\User;
+namespace App\Component\User\Service\Manager;
 
-use App\Entity\User;
+use App\Component\User\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 
 class UserManager

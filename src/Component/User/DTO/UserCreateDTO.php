@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Component\User\DTO;
 
-use App\Entity\User;
-use App\Validator\Constraints\Unique;
+use App\Component\User\Entity\User;
+use App\Shared\Validator\Constraints\Unique;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 

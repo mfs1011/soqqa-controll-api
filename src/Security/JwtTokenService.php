@@ -3,7 +3,7 @@
 namespace App\Security;
 
 use App\Component\User\DTO\TokensDTO;
-use App\Entity\User;
+use App\Component\User\Entity\User;
 use DateInterval;
 use DateTimeImmutable;
 use Firebase\JWT\JWT;

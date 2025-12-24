@@ -7,7 +7,7 @@ security:
     providers:
         app_user_provider:
             entity:
-                class: App\Entity\User
+                class: App\Component\User\Entity\User
                 property: email
 
     firewalls:

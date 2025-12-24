@@ -1,0 +1,4 @@
+user_controllers:
+    resource: ../../src/Component/User/Controller
+    type: attribute
+    prefix: /users

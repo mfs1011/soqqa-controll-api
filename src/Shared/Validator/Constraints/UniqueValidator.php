@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Validator\Constraints;
+namespace App\Shared\Validator\Constraints;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Validator\Constraint;

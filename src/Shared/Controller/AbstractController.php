@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Controller;
+namespace App\Shared\Controller;
 
-use App\Controller\Constants\ResponseFormat;
+use App\Shared\Controller\Constants\ResponseFormat;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;

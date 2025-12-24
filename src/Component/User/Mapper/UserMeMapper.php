@@ -3,7 +3,7 @@
 namespace App\Component\User\Mapper;
 
 use App\Component\User\DTO\UserMeDTO;
-use App\Entity\User;
+use App\Component\User\Entity\User;
 
 final class UserMeMapper
 {

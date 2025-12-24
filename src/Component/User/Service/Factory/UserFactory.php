@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Component\User;
+namespace App\Component\User\Service\Factory;
 
-use App\Entity\User;
+use App\Component\User\Entity\User;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 readonly class UserFactory
