@@ -8,10 +8,11 @@ use App\Component\User\DTO\RefreshTokenDTO;
 use App\Component\User\DTO\RefreshTokenRequestDTO;
 use App\Component\User\DTO\UserAuthDTO;
 use App\Component\User\DTO\UserCreateDTO;
-use App\Component\User\DTO\UserDTO;
 use App\Component\User\Exception\AuthException;
+use App\Component\User\Mapper\UserMeMapper;
 use App\Component\User\UserFactory;
 use App\Component\User\UserManager;
+use App\Entity\User;
 use App\Repository\UserRepository;
 use App\Security\JwtTokenService;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -20,6 +21,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 
@@ -99,9 +101,12 @@ final class UserController extends AbstractController
     }
 
     #[Route('/me', methods: ["GET"])]
-    public function me(): Response
+    public function me(
+        #[CurrentUser] User $user,
+        UserMeMapper $meMapper
+    ): Response
     {
-        return $this->success($this->getUser(), context: ['groups' => ['user:me:read']]);
+        return $this->success($meMapper->fromEntity($user));
     }
 
     /**

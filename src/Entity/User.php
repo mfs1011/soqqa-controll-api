@@ -17,19 +17,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['user:read', 'user:me:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255, unique: true)]
-    #[Groups(['user:read', 'user:me:read', 'user:write'])]
     private ?string $email = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['user:write'])]
     private ?string $password = null;
 
     #[ORM\Column(type: 'json')]
-    #[Groups(['user:read', 'user:me:read'])]
     private array $roles = ['ROLE_USER'];
 
     public function getId(): ?int
