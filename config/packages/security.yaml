@@ -7,7 +7,7 @@ security:
     providers:
         app_user_provider:
             entity:
-                class: App\Component\User\Entity\User
+                class: App\Component\User\V1\Entity\User
                 property: email
 
     firewalls:
@@ -23,7 +23,7 @@ security:
             # switch_user: true
 
         users_create:
-            pattern: ^/api/users$
+            pattern: ^/api/v1/users$
             methods:
                 - POST
             security: false
@@ -40,8 +40,9 @@ security:
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
-        - { path: ^/api/users/auth, roles: PUBLIC_ACCESS }
-        - { path: ^/api/users/refresh-auth, roles: PUBLIC_ACCESS }
+        - { path: ^/api/v1/users/auth, roles: PUBLIC_ACCESS }
+        - { path: ^/api/v1/users/refresh-auth, roles: PUBLIC_ACCESS }
+        - { path: ^/api/v1/users, roles: PUBLIC_ACCESS }
         - { path: ^/api, roles: ROLE_USER }
 
 when@test:

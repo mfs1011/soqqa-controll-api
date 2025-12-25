@@ -17,8 +17,8 @@ doctrine:
             User:
                 is_bundle: false
                 type: attribute
-                dir: '%kernel.project_dir%/src/Component/User/Entity'
-                prefix: 'App\Component\User\Entity'
+                dir: '%kernel.project_dir%/src/Component/User/V1/Entity'
+                prefix: 'App\Component\User\V1\Entity'
                 alias: User
 #            App:
 #                type: attribute

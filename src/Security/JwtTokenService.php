@@ -2,9 +2,10 @@
 
 namespace App\Security;
 
-use App\Component\User\DTO\TokensDTO;
-use App\Component\User\Entity\User;
+use App\Component\User\V1\DTO\TokensDTO;
+use App\Component\User\V1\Entity\User;
 use DateInterval;
+use DateMalformedIntervalStringException;
 use DateTimeImmutable;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
@@ -19,6 +20,9 @@ readonly class JwtTokenService
         private string $refreshTokenPeriod,
     ) {}
 
+    /**
+     * @throws DateMalformedIntervalStringException
+     */
     public function create(User $user): TokensDTO
     {
         return new TokensDTO(
@@ -27,6 +31,9 @@ readonly class JwtTokenService
         );
     }
 
+    /**
+     * @throws DateMalformedIntervalStringException
+     */
     public function generateAccessToken(User $user): string
     {
         $privateKey = openssl_pkey_get_private(
@@ -46,6 +53,9 @@ readonly class JwtTokenService
         ], $privateKey, 'RS256');
     }
 
+    /**
+     * @throws DateMalformedIntervalStringException
+     */
     public function generateRefreshToken(int $userId): string
     {
         $privateKey = openssl_pkey_get_private(
