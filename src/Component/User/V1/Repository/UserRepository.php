@@ -28,7 +28,9 @@ class UserRepository extends AbstractRepository
             $page = (int) ($queries['page'] ?? 1);
             $limit = (int) ($queries['limit'] ?? 10);
 
-            $qb = $this->createQueryBuilder('u');
+            $qb = $this->createQueryBuilder('u')
+                ->orderBy('u.id', 'DESC')
+            ;
 
             if (isset($queries['search'])) {
                 $qb->

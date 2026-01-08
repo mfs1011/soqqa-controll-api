@@ -3,10 +3,10 @@
 namespace App\Component\User\V1\UseCase;
 
 use App\Component\User\V1\DTO\TokensDTO;
-use App\Component\User\V1\Exception\AuthException;
 use App\Component\User\V1\Repository\UserRepository;
 use App\Security\JwtTokenService;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Security\Core\Exception\BadCredentialsException;
 
 readonly class AuthenticateUser
 {
@@ -22,7 +22,7 @@ readonly class AuthenticateUser
         $user = $this->userRepository->findOneBy(['email' => $email]);
 
         if (!$user || !$this->passwordEncoder->isPasswordValid($user, $password)) {
-            throw new AuthException('Invalid credentials');
+            throw new BadCredentialsException('Invalid credentials');
         }
 
         return $this->tokenGenerator->create($user);

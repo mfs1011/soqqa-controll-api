@@ -20,9 +20,6 @@ readonly class JwtTokenService
         private string $refreshTokenPeriod,
     ) {}
 
-    /**
-     * @throws DateMalformedIntervalStringException
-     */
     public function create(User $user): TokensDTO
     {
         return new TokensDTO(
@@ -31,9 +28,6 @@ readonly class JwtTokenService
         );
     }
 
-    /**
-     * @throws DateMalformedIntervalStringException
-     */
     public function generateAccessToken(User $user): string
     {
         $privateKey = openssl_pkey_get_private(

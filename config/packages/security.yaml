@@ -31,6 +31,7 @@ security:
         api:
             pattern: ^/api
             stateless: true
+            access_denied_handler: App\Security\AccessDeniedHandler
             provider: app_user_provider
             entry_point: App\Security\JwtEntryPoint
             custom_authenticator:
