@@ -2,8 +2,8 @@
 
 namespace App\Security;
 
-use App\Component\User\V1\DTO\TokensDTO;
-use App\Component\User\V1\Entity\User;
+use App\Module\V1\User\DTO\TokensDTO;
+use App\Module\V1\User\Entity\User;
 use DateInterval;
 use DateMalformedIntervalStringException;
 use DateTimeImmutable;
