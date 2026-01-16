@@ -4,11 +4,14 @@ namespace App\Security;
 
 use App\Module\V1\User\DTO\TokensDTO;
 use App\Module\V1\User\Entity\User;
+use App\Module\V1\User\Exception\InvalidRefreshTokenException;
 use DateInterval;
 use DateMalformedIntervalStringException;
 use DateTimeImmutable;
+use Firebase\JWT\ExpiredException;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
+use Firebase\JWT\SignatureInvalidException;
 
 readonly class JwtTokenService
 {
@@ -69,9 +72,17 @@ readonly class JwtTokenService
 
     public function decode(string $token): array
     {
-        return (array) JWT::decode(
-            $token,
-            new Key(file_get_contents($this->publicKeyPath), 'RS256')
-        );
+        try {
+            return (array)JWT::decode(
+                $token,
+                new Key(file_get_contents($this->publicKeyPath), 'RS256')
+            );
+        } catch (
+            ExpiredException |
+            SignatureInvalidException |
+            \UnexpectedValueException $e
+        ) {
+            throw new InvalidRefreshTokenException();
+        }
     }
 }

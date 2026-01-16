@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Component\User\V1\UseCase;
+namespace App\Module\V1\User\UseCase;
 
-use App\Component\User\V1\DTO\TokensDTO;
-use App\Component\User\V1\Repository\UserRepository;
+use App\Module\V1\User\DTO\TokensDTO;
+use App\Module\V1\User\Repository\UserRepository;
 use App\Security\JwtTokenService;
 use DateMalformedIntervalStringException;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;

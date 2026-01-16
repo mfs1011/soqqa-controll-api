@@ -20,6 +20,12 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Module/V1/User/Entity'
                 prefix: 'App\Module\V1\User\Entity'
                 alias: User
+            Account:
+                is_bundle: false
+                type: attribute
+                dir: '%kernel.project_dir%/src/Module/V1/Account/Entity'
+                prefix: 'App\Module\V1\Account\Entity'
+                alias: Account
 #            App:
 #                type: attribute
 #                is_bundle: false
@@ -28,6 +34,11 @@ doctrine:
 #                alias: App
         controller_resolver:
             auto_mapping: false
+
+        filters:
+            soft_delete:
+                class: App\Shared\Infrastructure\Doctrine\Filter\SoftDeleteFilter
+                enabled: true
 
 when@test:
     doctrine:

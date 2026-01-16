@@ -1,21 +1,18 @@
 <?php
 
-namespace App\Module\V1\User\Controller;
+namespace App\Module\V1\Account\Controller;
 
-use App\Module\V1\User\Mapper\UserMapper;
-use App\Module\V1\User\Repository\UserRepository;
+use App\Module\V1\Account\Mapper\AccountMapper;
+use App\Module\V1\Account\Repository\AccountRepository;
 use App\Shared\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[IsGranted('ROLE_ADMIN')]
-#[Route('/users', methods: ['GET'])]
-class UsersGetAllAction extends AbstractController
+#[Route('/accounts', methods: ['GET'])]
+class AccountGetAllAction extends AbstractController
 {
-    public function __invoke(UserRepository $repository, Request $request, UserMapper $userMapper): JsonResponse
+    public function __invoke(AccountRepository $repository, Request $request, AccountMapper $userMapper): Response
     {
         $queries = $request->query->all();
         $page = (int) $request->query->get('page', 1);

@@ -47,8 +47,7 @@ class JwtAuthenticator extends AbstractAuthenticator implements AuthenticationEn
         try {
             $decoded = $this->jwtService->decode($token);
         } catch (\Throwable $e) {
-            // 🔥 MUHIM QISM
-            throw new AuthenticationException('Invalid or expired token', 0, $e);
+            throw new AuthenticationException('Invalid or expired token', 401, $e);
         }
 
         return new SelfValidatingPassport(

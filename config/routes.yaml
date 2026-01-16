@@ -13,3 +13,7 @@ controllers:
 api_users:
     resource: routes/user.yaml
     prefix: /api
+
+api_accounts:
+    resource: routes/account.yaml
+    prefix: /api

@@ -9,9 +9,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Routing\Attribute\Route;
 
+#[Route('/users/refresh-auth', methods: ["POST"])]
 class UsersAuthByRefreshTokenAction extends AbstractController
 {
-    #[Route('/users/refresh-auth', methods: ["POST"])]
     public function __invoke(
         #[MapRequestPayload(
             serializationContext: ['groups' => ['user:write']]

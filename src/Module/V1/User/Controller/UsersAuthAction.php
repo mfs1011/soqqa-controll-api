@@ -9,9 +9,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Routing\Attribute\Route;
 
+#[Route('/users/auth', methods: ["POST"])]
 class UsersAuthAction extends AbstractController
 {
-    #[Route('/users/auth', methods: ["POST"])]
     public function __invoke(
         #[MapRequestPayload(
             serializationContext: ['groups' => ['user:write']]

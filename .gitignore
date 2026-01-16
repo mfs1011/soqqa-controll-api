@@ -10,3 +10,6 @@
 ###< symfony/framework-bundle ###
 
 /docker/db_data
+
+/.idea
+/.idea/*

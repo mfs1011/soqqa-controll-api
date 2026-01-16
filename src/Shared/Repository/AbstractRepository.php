@@ -19,6 +19,28 @@ abstract class AbstractRepository extends ServiceEntityRepository
                 ->getQuery()
         );
     }
+
+    protected function withoutSoftDelete(callable $callback): mixed
+    {
+        $em = $this->getEntityManager();
+        $filters = $em->getFilters();
+
+        $wasEnabled = $filters->isEnabled('soft_delete');
+
+        if ($wasEnabled) {
+            $filters->disable('soft_delete');
+        }
+
+        try {
+            return $callback();
+        } finally {
+            if ($wasEnabled) {
+                $filters->enable('soft_delete');
+            }
+        }
+    }
+
+
     public function getSQLQuery(QueryBuilder $queryBuilder, $page = 1, $itemsPerPage = 10): string
     {
         return
