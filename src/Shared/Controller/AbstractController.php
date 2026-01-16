@@ -140,5 +140,4 @@ abstract class AbstractController extends \Symfony\Bundle\FrameworkBundle\Contro
             $format
         );
     }
-
 }

@@ -5,6 +5,7 @@ namespace App\Security;
 use App\Module\V1\User\DTO\TokensDTO;
 use App\Module\V1\User\Entity\User;
 use App\Module\V1\User\Exception\InvalidRefreshTokenException;
+use App\Shared\Security\Token\TokenServiceInterface;
 use DateInterval;
 use DateMalformedIntervalStringException;
 use DateTimeImmutable;
@@ -13,7 +14,7 @@ use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 use Firebase\JWT\SignatureInvalidException;
 
-readonly class JwtTokenService
+readonly class JwtTokenService implements TokenServiceInterface
 {
     public function __construct(
         private string $privateKeyPath,

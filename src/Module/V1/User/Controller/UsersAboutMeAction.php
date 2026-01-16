@@ -12,10 +12,7 @@ use Symfony\Component\Security\Http\Attribute\CurrentUser;
 #[Route('/users/me', methods: ["GET"])]
 class UsersAboutMeAction extends AbstractController
 {
-    public function me(
-        #[CurrentUser] User $user,
-        UserMeMapper $meMapper
-    ): Response
+    public function __invoke(#[CurrentUser] User $user, UserMeMapper $meMapper): Response
     {
         return $this->itemResponse(
             data: $meMapper->fromEntity($user),

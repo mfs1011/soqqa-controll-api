@@ -29,3 +29,6 @@ services:
             $passphrase: '%env(JWT_PASSPHRASE)%'
             $accessTokenPeriod: '%env(string:JWT_ACCESS_PERIOD)%'
             $refreshTokenPeriod: '%env(string:JWT_REFRESH_PERIOD)%'
+
+    App\Shared\Security\Token\TokenServiceInterface:
+        alias: App\Security\JwtTokenService

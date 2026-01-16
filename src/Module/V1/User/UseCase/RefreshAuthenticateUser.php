@@ -6,13 +6,13 @@ use App\Module\V1\User\DTO\RefreshTokenDTO;
 use App\Module\V1\User\DTO\TokensDTO;
 use App\Module\V1\User\Exception\AuthException;
 use App\Module\V1\User\Repository\UserRepository;
-use App\Security\JwtTokenService;
+use App\Shared\Security\Token\TokenServiceInterface;
 use DateMalformedIntervalStringException;
 
 final readonly class RefreshAuthenticateUser
 {
     public function __construct(
-        private JwtTokenService $tokenService,
+        private TokenServiceInterface $tokenService,
         private UserRepository  $users
     ) {
     }

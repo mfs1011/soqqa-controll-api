@@ -4,7 +4,7 @@ namespace App\Module\V1\User\UseCase;
 
 use App\Module\V1\User\DTO\TokensDTO;
 use App\Module\V1\User\Repository\UserRepository;
-use App\Security\JwtTokenService;
+use App\Shared\Security\Token\TokenServiceInterface;
 use DateMalformedIntervalStringException;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\Exception\BadCredentialsException;
@@ -14,7 +14,7 @@ readonly class AuthenticateUser
     public function __construct(
         private UserRepository $userRepository,
         private UserPasswordHasherInterface $passwordEncoder,
-        private JwtTokenService $tokenGenerator
+        private TokenServiceInterface $tokenGenerator
     ) {
     }
 
