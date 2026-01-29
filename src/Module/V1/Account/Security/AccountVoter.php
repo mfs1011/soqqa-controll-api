@@ -32,7 +32,7 @@ class AccountVoter extends Voter
         /** @var Account $account */
         $account = $subject;
 
-        return $account->getOwner()->getId() === $user->getId() || $user->getRoles()->contains('ROLE_ADMIN');
+        return $account->getOwnerId() === $user->getId() || in_array('ROLE_ADMIN', $user->getRoles(), true);
     }
 }
 

@@ -22,7 +22,7 @@ class AccountMapper
             $items[] = new AccountDTO(
                 $account->getId(),
                 $account->getName(),
-                $account->getOwner()->getId(),
+                $account->getOwnerId(),
             );
         }
 
@@ -42,7 +42,7 @@ class AccountMapper
         return new AccountDTO(
             $account->getId(),
             $account->getName(),
-            $account->getOwner()->getId(),
+            $account->getOwnerId(),
         );
     }
 }

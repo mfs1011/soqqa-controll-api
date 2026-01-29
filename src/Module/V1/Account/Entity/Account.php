@@ -22,9 +22,8 @@ class Account implements SoftDeletableInterface
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?User $owner = null;
+    #[ORM\Column]
+    private ?int $ownerId = null;
 
     public function getId(): ?int
     {
@@ -43,14 +42,14 @@ class Account implements SoftDeletableInterface
         return $this;
     }
 
-    public function getOwner(): ?User
+    public function getOwnerId(): ?int
     {
-        return $this->owner;
+        return $this->ownerId;
     }
 
-    public function setOwner(?UserInterface $owner): static
+    public function setOwnerId(int $ownerId): static
     {
-        $this->owner = $owner;
+        $this->ownerId = $ownerId;
 
         return $this;
     }

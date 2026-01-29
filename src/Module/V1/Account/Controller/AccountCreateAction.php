@@ -5,10 +5,12 @@ namespace App\Module\V1\Account\Controller;
 use App\Module\V1\Account\DTO\Input\AccountCreateDTO;
 use App\Module\V1\Account\Mapper\AccountMapper;
 use App\Module\V1\Account\UseCase\CreateAccount;
+use App\Module\V1\User\Entity\User;
 use App\Shared\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 #[Route('/accounts', methods: ["POST"])]
 class AccountCreateAction extends AbstractController
@@ -21,7 +23,11 @@ class AccountCreateAction extends AbstractController
         AccountMapper $accountMapper
     ): Response
     {
-        $account = $createAccount->execute($accountData, $this->getUser());
+        if (!$this->getUser() instanceof User) {
+            throw new AccessDeniedException('This action is only available to authenticated users.');
+        }
+
+        $account = $createAccount->execute($accountData, $this->getUser()->getId());
 
         return $this->itemResponse(
             data: $accountMapper->fromAccount($account),

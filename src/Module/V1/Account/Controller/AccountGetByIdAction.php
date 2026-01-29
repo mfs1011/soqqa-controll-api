@@ -17,6 +17,8 @@ class AccountGetByIdAction extends AbstractController
     {
         $account = $repository->findNotDeleted($id);
 
+        $this->denyAccessUnlessGranted('ACCOUNT_OWNER', $account);
+
         return $this->itemResponse(
             data: $mapper->fromAccount($account),
         );

@@ -6,7 +6,6 @@ use App\Module\V1\Account\DTO\Input\AccountCreateDTO;
 use App\Module\V1\Account\Entity\Account;
 use App\Module\V1\Account\Service\Factory\AccountFactory;
 use App\Module\V1\Account\Service\Manager\AccountManager;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 final readonly class CreateAccount
 {
@@ -15,9 +14,9 @@ final readonly class CreateAccount
         private AccountManager $manager
     ) {}
 
-    public function execute(AccountCreateDTO $accountCreateDTO, UserInterface $currentUser): Account
+    public function execute(AccountCreateDTO $accountCreateDTO, int $userId): Account
     {
-        $account = $this->factory->create($accountCreateDTO->getName(), $currentUser);
+        $account = $this->factory->create($accountCreateDTO->getName(), $userId);
         $this->manager->save($account, true);
 
         return $account;

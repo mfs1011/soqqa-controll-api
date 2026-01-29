@@ -78,6 +78,25 @@ class AccountRepository extends AbstractRepository
         return $account;
     }
 
+    public function findByUserAndId(int $id, int $ownerId): ?Account
+    {
+        $account = $this->createQueryBuilder('a')
+            ->andWhere('a.id = :id')
+            ->andWhere('a.ownerId = :ownerId')
+            ->andWhere('a.deletedAt IS NULL')
+            ->setParameter('id', $id)
+            ->setParameter('ownerId', $ownerId)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+
+        if ($account === null) {
+            throw new AccountNotFoundException('Account not found');
+        }
+
+        return $account;
+    }
+
 
 //    /**
     //     * @return Account[] Returns an array of Account objects
