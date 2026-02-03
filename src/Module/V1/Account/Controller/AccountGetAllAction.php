@@ -14,6 +14,9 @@ class AccountGetAllAction extends AbstractController
 {
     public function __invoke(AccountRepository $repository, Request $request, AccountMapper $userMapper): Response
     {
+        // TODO Account owneri o'zini accountlarini ola olishi kerak va o'zini accoutlari ustida amallar bajara olishi kerak
+        // TODO Admin bo'ladigan bo'lsa kerakli ruxsatlarni o'ylab ko'rib berish kerak
+
         $queries = $request->query->all();
         $page = (int) $request->query->get('page', 1);
         $limit = (int) $request->query->get('limit', 10);

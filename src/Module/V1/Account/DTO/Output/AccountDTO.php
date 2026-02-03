@@ -14,7 +14,16 @@ readonly class AccountDTO
         private string $name,
 
         #[Groups(['user:read'])]
-        private int $ownerId
+        private int $ownerId,
+
+        #[Groups(['user:read'])]
+        private int $balance,
+
+        #[Groups(['user:read'])]
+        private int $createdById,
+
+        #[Groups(['user:read'])]
+        private \DateTimeImmutable $createdAt
     ) {
     }
 
@@ -31,5 +40,20 @@ readonly class AccountDTO
     public function getOwnerId(): int
     {
         return $this->ownerId;
+    }
+
+    public function getBalance(): int
+    {
+        return $this->balance;
+    }
+
+    public function getCreatedById(): int
+    {
+        return $this->createdById;
+    }
+
+    public function getCreatedAt(): \DateTimeImmutable
+    {
+        return $this->createdAt;
     }
 }

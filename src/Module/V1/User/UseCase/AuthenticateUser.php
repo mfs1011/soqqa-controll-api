@@ -9,7 +9,7 @@ use DateMalformedIntervalStringException;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\Exception\BadCredentialsException;
 
-readonly class AuthenticateUser
+final readonly class AuthenticateUser
 {
     public function __construct(
         private UserRepository $userRepository,

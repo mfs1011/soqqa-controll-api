@@ -2,6 +2,7 @@
 
 namespace App\Module\V1\User\UseCase;
 
+use App\Module\V1\User\DTO\UserCreateDTO;
 use App\Module\V1\User\Entity\User;
 use App\Module\V1\User\Service\Factory\UserFactory;
 use App\Module\V1\User\Service\Manager\UserManager;
@@ -21,4 +22,3 @@ final readonly class CreateUser
         return $user;
     }
 }
-

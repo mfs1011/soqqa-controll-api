@@ -32,3 +32,13 @@ services:
 
     App\Shared\Security\Token\TokenServiceInterface:
         alias: App\Security\JwtTokenService
+
+    App\Shared\Security\DoctrinePolicy\:
+        resource: '../src/Shared/Security/DoctrinePolicy/*'
+        tags: [ 'app.doctrine_policy' ]
+
+    App\Shared\Infrastructure\Doctrine\Subscriber\DoctrineFilterSubscriber:
+        arguments:
+            $policies: !tagged_iterator app.doctrine_policy
+        tags:
+            - { name: kernel.event_listener, event: kernel.controller, priority: 10 }

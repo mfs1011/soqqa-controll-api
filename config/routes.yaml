@@ -17,3 +17,7 @@ api_users:
 api_accounts:
     resource: routes/account.yaml
     prefix: /api
+
+api_transactions:
+    resource: routes/transaction.yaml
+    prefix: /api

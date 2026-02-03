@@ -18,11 +18,15 @@ class AccountMapper
     {
         $items = [];
 
+        /** @var Account $account */
         foreach ($paginator as $account) {
             $items[] = new AccountDTO(
                 $account->getId(),
                 $account->getName(),
                 $account->getOwnerId(),
+                (int) $account->getBalance(),
+                $account->getCreatedById(),
+                $account->getCreatedAt(),
             );
         }
 
@@ -43,6 +47,9 @@ class AccountMapper
             $account->getId(),
             $account->getName(),
             $account->getOwnerId(),
+            $account->getBalance(),
+            $account->getCreatedById(),
+            $account->getCreatedAt(),
         );
     }
 }

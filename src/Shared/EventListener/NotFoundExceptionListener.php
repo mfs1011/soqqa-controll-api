@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Shared\EventListener;
 
 use App\Shared\Domain\Exception\NotFoundException;

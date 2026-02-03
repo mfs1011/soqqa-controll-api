@@ -5,10 +5,13 @@ namespace App\Security;
 use App\Module\V1\User\DTO\TokensDTO;
 use App\Module\V1\User\Entity\User;
 use App\Module\V1\User\Exception\InvalidRefreshTokenException;
+use App\Security\Exception\TokenExpiredException;
+use App\Security\Exception\TokenInvalidException;
 use App\Shared\Security\Token\TokenServiceInterface;
 use DateInterval;
 use DateMalformedIntervalStringException;
 use DateTimeImmutable;
+use Firebase\JWT\BeforeValidException;
 use Firebase\JWT\ExpiredException;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
@@ -79,11 +82,16 @@ readonly class JwtTokenService implements TokenServiceInterface
                 new Key(file_get_contents($this->publicKeyPath), 'RS256')
             );
         } catch (
-            ExpiredException |
             SignatureInvalidException |
-            \UnexpectedValueException $e
+            BeforeValidException |
+            \UnexpectedValueException |
+            ExpiredException $e
         ) {
-            throw new InvalidRefreshTokenException();
+            if ($e instanceof ExpiredException) {
+                throw new TokenExpiredException('Expired token');
+            }
+
+            throw new TokenInvalidException('Invalid token');
         }
     }
 }

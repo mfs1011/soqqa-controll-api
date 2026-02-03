@@ -26,6 +26,12 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Module/V1/Account/Entity'
                 prefix: 'App\Module\V1\Account\Entity'
                 alias: Account
+            Transaction:
+                is_bundle: false
+                type: attribute
+                dir: '%kernel.project_dir%/src/Module/V1/Transaction/Entity'
+                prefix: 'App\Module\V1\Transaction\Entity'
+                alias: Transaction
 #            App:
 #                type: attribute
 #                is_bundle: false
@@ -39,6 +45,10 @@ doctrine:
             soft_delete:
                 class: App\Shared\Infrastructure\Doctrine\Filter\SoftDeleteFilter
                 enabled: true
+
+            created_by_filter:
+                class: App\Shared\Infrastructure\Doctrine\Filter\CreatedByFilter
+                enabled: false
 
 when@test:
     doctrine:

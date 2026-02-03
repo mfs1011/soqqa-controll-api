@@ -44,11 +44,7 @@ class JwtAuthenticator extends AbstractAuthenticator implements AuthenticationEn
 
         $token = substr($header, 7);
 
-        try {
-            $decoded = $this->jwtService->decode($token);
-        } catch (\Throwable $e) {
-            throw new AuthenticationException('Invalid or expired token', 401, $e);
-        }
+        $decoded = $this->jwtService->decode($token);
 
         return new SelfValidatingPassport(
             new UserBadge(
@@ -63,7 +59,7 @@ class JwtAuthenticator extends AbstractAuthenticator implements AuthenticationEn
     {
         return new JsonResponse([
             'status' => 'error',
-            'error' => 'Invalid token'
+            'error' => $exception->getMessage()
         ], Response::HTTP_UNAUTHORIZED);
     }
 

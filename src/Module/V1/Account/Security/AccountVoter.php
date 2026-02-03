@@ -7,10 +7,12 @@ use App\Module\V1\User\Entity\User;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\Authorization\Voter\Vote;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class AccountVoter extends Voter
 {
-    const string ACCOUNT_OWNER = 'ACCOUNT_OWNER';
+    public const string ACCOUNT_OWNER = 'ACCOUNT_OWNER';
+    public const string IS_ADMIN = 'IS_ADMIN';
 
     protected function supports(string $attribute, mixed $subject): bool
     {
@@ -25,14 +27,28 @@ class AccountVoter extends Voter
     ): bool {
         $user = $token->getUser();
 
-        if (!$user instanceof User) {
+        if (!$user instanceof UserInterface) {
             return false;
         }
 
         /** @var Account $account */
         $account = $subject;
 
-        return $account->getOwnerId() === $user->getId() || in_array('ROLE_ADMIN', $user->getRoles(), true);
+        return match ($attribute) {
+            self::IS_ADMIN => $this->isAdmin($user),
+            self::ACCOUNT_OWNER => $this->isOwner($user, $subject),
+            default => false,
+        };
+    }
+
+    private function isAdmin(UserInterface $user): bool
+    {
+        return in_array('ROLE_ADMIN', $user->getRoles(), true);
+    }
+
+    private function isOwner(UserInterface $user, Account $account): bool
+    {
+        return $account->getOwnerId() === $user->getId();
     }
 }
 
