@@ -45,12 +45,6 @@ class TransactionRepository extends AbstractRepository
                 ->setParameter('type', $queries['type']);
         }
 
-        if (isset($queries['is_transfer'])) {
-            $qb
-                ->andWhere('t.isTransfer = :is_transfer')
-                ->setParameter('is_transfer', $queries['is_transfer']);
-        }
-
         return $this->paginate(
             queryBuilder: $qb,
             page: $page,

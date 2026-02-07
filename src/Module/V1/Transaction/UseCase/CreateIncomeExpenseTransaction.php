@@ -57,7 +57,7 @@ readonly class CreateIncomeExpenseTransaction
     {
         if (
             $createIncomeOrExpenseDTO->getType() === TransactionTypeEnum::Expense &&
-            $createIncomeOrExpenseDTO->getAmount() > (int) $account->getBalance()
+            $createIncomeOrExpenseDTO->getAmount() > $account->getBalance()
         ) {
             throw new InsufficientBalanceException();
         }

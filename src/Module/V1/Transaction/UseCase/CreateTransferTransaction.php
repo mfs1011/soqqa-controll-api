@@ -3,16 +3,13 @@
 namespace App\Module\V1\Transaction\UseCase;
 
 use App\Module\V1\Account\Entity\Account;
-use App\Module\V1\Account\Repository\AccountRepository;
 use App\Module\V1\Transaction\DTO\Input\TransactionCreateTransferDTO;
-use App\Module\V1\Transaction\DTO\Output\TransactionTransferDTO;
+use App\Module\V1\Transaction\Entity\Transfer;
 use App\Module\V1\Transaction\Enums\TransactionTypeEnum;
-use App\Module\V1\Transaction\Event\TransactionTransferCreatedEvent;
+use App\Module\V1\Transaction\Event\TransferCreatedEvent;
 use App\Module\V1\Transaction\Exception\InsufficientBalanceException;
-use App\Module\V1\Transaction\Exception\InvalidAmountException;
 use App\Module\V1\Transaction\Service\Factory\TransactionFactory;
 use App\Shared\Domain\Exception\AccessDeniedException;
-use App\Shared\Domain\Exception\NotFoundException;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use LogicException;
@@ -22,14 +19,18 @@ readonly class CreateTransferTransaction
 {
     public function __construct(
         private EntityManagerInterface      $entityManager,
-        private AccountRepository           $accountRepository,
         private EventDispatcherInterface    $eventDispatcher,
         private TransactionFactory          $transactionFactory,
     )
     {
     }
 
-    public function execute(TransactionCreateTransferDTO $transactionCreateTransferDTO, int $userId): TransactionTransferDTO
+    public function execute(
+        TransactionCreateTransferDTO $transactionCreateTransferDTO,
+        int $userId,
+        Account $fromAccount,
+        Account $toAccount,
+    ): Transfer
     {
         // TODO
         // DTO dan from, to, amount, description keladi
@@ -37,14 +38,13 @@ readonly class CreateTransferTransaction
         // 2. transaction yaratilib keyin account balance'larini update qilish kerak
         // 3.
 
-        /** @var TransactionTransferDTO $transferTransaction */
-        $transferTransaction = $this->entityManager->wrapInTransaction(function () use (
+        /** @var Transfer $transfer */
+        $transfer = $this->entityManager->wrapInTransaction(function () use (
+            $toAccount,
+            $fromAccount,
             $transactionCreateTransferDTO,
             $userId
         ) {
-            $fromAccount = $this->findAccount($transactionCreateTransferDTO->getFromAccountId());
-            $toAccount = $this->findAccount($transactionCreateTransferDTO->getToAccountId());
-
             $this->validateTransaction($transactionCreateTransferDTO, $userId, $fromAccount, $toAccount);
 
             $fromTransaction = $this->transactionFactory->create(
@@ -71,17 +71,25 @@ readonly class CreateTransferTransaction
             $toAccount->deposit($transactionCreateTransferDTO->getAmount());
             $this->entityManager->persist($toAccount);
 
-            return new TransactionTransferDTO($fromTransaction, $toTransaction);
+            $transfer = new Transfer();
+            $transfer->setFromId($fromAccount->getId());
+            $transfer->setToId($toAccount->getId());
+            $transfer->setAmount($transactionCreateTransferDTO->getAmount());
+            $transfer->setDescription($transactionCreateTransferDTO->getDescription());
+
+            $this->entityManager->persist($transfer);
+
+            return $transfer;
         });
 
-        $this->eventDispatcher->dispatch(
-            new TransactionTransferCreatedEvent(
-                $transferTransaction->getIncomeTransaction(),
-                $transferTransaction->getExpenseTransaction()
-            )
-        );
+        $this->eventDispatcher->dispatch(new TransferCreatedEvent(
+            transferId: $transfer->getId(),
+            fromAccountId: $transfer->getFromId(),
+            toAccountId: $transfer->getToId(),
+            amount: $transfer->getAmount(),
+        ));
 
-        return $transferTransaction;
+        return $transfer;
     }
 
     private function validateTransaction(
@@ -99,23 +107,8 @@ readonly class CreateTransferTransaction
             throw new AccessDeniedException('You are not allowed to create transactions for this account.');
         }
 
-        if ($transactionCreateTransferDTO->getAmount() <= 0) {
-            throw new InvalidAmountException();
-        }
-
         if ($transactionCreateTransferDTO->getAmount() > $fromAccount->getBalance()) {
             throw new InsufficientBalanceException();
         }
-    }
-
-    private function findAccount(int $accountId): Account
-    {
-        $account = $this->accountRepository->find($accountId);
-
-        if (!$account) {
-            throw new NotFoundException('Account not found.');
-        }
-
-        return $account;
     }
 }

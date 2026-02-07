@@ -30,6 +30,9 @@ class Transfer implements CreatedAtSettableInterface, CreatedBySettableInterface
     #[ORM\Column(type: Types::BIGINT)]
     private ?string $amount = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $description = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -67,6 +70,18 @@ class Transfer implements CreatedAtSettableInterface, CreatedBySettableInterface
     public function setAmount(int $amount): static
     {
         $this->amount = (string) $amount;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): static
+    {
+        $this->description = $description;
 
         return $this;
     }
