@@ -22,10 +22,27 @@ class TransactionRepository extends AbstractRepository
     {
         $page = (int) ($queries['page'] ?? 1);
         $limit = (int) ($queries['limit'] ?? 10);
+        $sort = $queries['sort'] ?? 'id';
 
-        $qb = $this->createQueryBuilder('t')
-            ->orderBy('t.id', 'DESC')
-        ;
+
+        $qb = $this->createQueryBuilder('tr');
+        $direction = strtoupper($queries['direction'] ?? 'DESC');
+
+        $allowedSorts = [
+            'id' => 'tr.id',
+            'createdAt' => 'tr.createdAt',
+            'amount' => 'tr.amount',
+        ];
+
+        if (!isset($allowedSorts[$sort])) {
+            $sort = 'id';
+        }
+
+        if (!in_array($direction, ['ASC', 'DESC'], true)) {
+            $direction = 'DESC';
+        }
+
+        $qb->orderBy($allowedSorts[$sort], $direction);
 
         if (isset($queries['account_id'])) {
             $qb
