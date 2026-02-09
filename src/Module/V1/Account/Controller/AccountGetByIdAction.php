@@ -10,7 +10,7 @@ use App\Shared\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/accounts/{id}', methods: ['GET'])]
+#[Route('/accounts/{id}', requirements: ['id' => '\d+'], methods: ['GET'])]
 class AccountGetByIdAction extends AbstractController
 {
     public function __invoke(int $id, AccountRepository $repository, AccountMapper $mapper): Response

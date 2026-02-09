@@ -21,3 +21,7 @@ api_accounts:
 api_transactions:
     resource: routes/transaction.yaml
     prefix: /api
+
+api_dashboards:
+    resource: routes/dashboard.yaml
+    prefix: /api

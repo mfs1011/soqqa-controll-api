@@ -1,0 +1,4 @@
+user_controllers:
+    resource: ../../src/Module/V1/Dashboard/Controller
+    type: attribute
+    prefix: /v1

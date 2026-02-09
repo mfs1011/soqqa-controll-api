@@ -42,3 +42,11 @@ services:
             $policies: !tagged_iterator app.doctrine_policy
         tags:
             - { name: kernel.event_listener, event: kernel.controller, priority: 10 }
+
+    # For account totals
+    App\Module\V1\Dashboard\Port\AccountBalanceProviderInterface:
+        alias: App\Module\V1\Account\Application\Provider\DoctrineAccountBalanceProvider
+
+    # For transaction income/expense totals
+    App\Module\V1\Dashboard\Port\TransactionTotalsProviderInterface:
+        alias: App\Module\V1\Transaction\Application\Provider\DoctrineTransactionTotalsProvider

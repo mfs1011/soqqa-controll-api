@@ -11,7 +11,9 @@ final readonly class TransferDTO
         private int $from_account_id,
         private int $to_account_id,
         private int $amount,
+        private ?string $description,
         private \DateTimeImmutable $createdAt,
+        private int $createdById,
     )
     {
     }
@@ -31,13 +33,23 @@ final readonly class TransferDTO
         return $this->to_account_id;
     }
 
-    public function getAmount(): int
+    public function getAmount(): ?int
     {
         return $this->amount;
+    }
+
+    public function getDescription(): string
+    {
+        return $this->description;
     }
 
     public function getCreatedAt(): \DateTimeImmutable
     {
         return $this->createdAt;
+    }
+
+    public function getCreatedById(): int
+    {
+        return $this->createdById;
     }
 }

@@ -25,7 +25,9 @@ class TransferMapper
                 $transfer->getFromId(),
                 $transfer->getToId(),
                 $transfer->getAmount(),
+                $transfer->getDescription() ?? '',
                 $transfer->getCreatedAt(),
+                $transfer->getCreatedById(),
             );
         }
 
@@ -47,7 +49,9 @@ class TransferMapper
             $transfer->getFromId(),
             $transfer->getToId(),
             $transfer->getAmount(),
+            $transfer->getDescription() ?? '',
             $transfer->getCreatedAt(),
+            $transfer->getCreatedById(),
         );
     }
 }

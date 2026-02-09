@@ -18,6 +18,15 @@ class AccountRepository extends AbstractRepository
     {
         parent::__construct($registry, Account::class);
     }
+
+    public function findTotalBalance(): int
+    {
+        return $this->createQueryBuilder('a')
+            ->select('SUM(a.balance)')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
     /**
      * @return Paginator Returns a paginator of User objects
      */
