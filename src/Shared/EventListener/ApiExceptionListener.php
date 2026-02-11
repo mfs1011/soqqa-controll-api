@@ -26,7 +26,7 @@ final class ApiExceptionListener
             $throwable instanceof TokenExpiredException =>
                 $this->json(
                     'Token expired',
-                    Response::HTTP_BAD_REQUEST
+                    Response::HTTP_UNAUTHORIZED
                 ),
             $throwable instanceof TokenInvalidException =>
                 $this->json(

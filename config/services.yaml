@@ -33,6 +33,10 @@ services:
     App\Shared\Security\Token\TokenServiceInterface:
         alias: App\Security\JwtTokenService
 
+    App\Module\V1\User\UseCase\RefreshAuthenticateUser:
+        arguments:
+            $refreshPeriod: '%env(JWT_REFRESH_PERIOD)%'
+
     App\Shared\Security\DoctrinePolicy\:
         resource: '../src/Shared/Security/DoctrinePolicy/*'
         tags: [ 'app.doctrine_policy' ]

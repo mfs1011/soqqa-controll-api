@@ -7,13 +7,16 @@ use App\Module\V1\User\DTO\TokensDTO;
 use App\Module\V1\User\Exception\AuthException;
 use App\Module\V1\User\Repository\UserRepository;
 use App\Shared\Security\Token\TokenServiceInterface;
+use DateInterval;
 use DateMalformedIntervalStringException;
+use DateTimeImmutable;
 
 final readonly class RefreshAuthenticateUser
 {
     public function __construct(
         private TokenServiceInterface $tokenService,
-        private UserRepository  $users
+        private UserRepository  $userRepository,
+        private string $refreshPeriod
     ) {
     }
 
@@ -32,12 +35,14 @@ final readonly class RefreshAuthenticateUser
             throw new AuthException('Invalid refresh token');
         }
 
-        $refreshTokenDto = new RefreshTokenDTO(
-            id: $payload['id'],
-            iat: $payload['iat']
-        );
+        $issuedAt = (new DateTimeImmutable())->setTimestamp($payload['iat']);
+        $expiresAt = $issuedAt->add(new DateInterval($this->refreshPeriod));
 
-        $user = $this->users->find($refreshTokenDto->getId());
+        if ($expiresAt < new DateTimeImmutable()) {
+            throw new AuthException('Refresh token expired');
+        }
+
+        $user = $this->userRepository->find($payload['id']);
 
         if (!$user) {
             throw new AuthException('Invalid credentials');
