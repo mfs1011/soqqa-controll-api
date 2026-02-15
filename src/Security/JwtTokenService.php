@@ -85,6 +85,7 @@ readonly class JwtTokenService implements TokenServiceInterface
             SignatureInvalidException |
             BeforeValidException |
             \UnexpectedValueException |
+            \DomainException |
             ExpiredException $e
         ) {
             if ($e instanceof ExpiredException) {
