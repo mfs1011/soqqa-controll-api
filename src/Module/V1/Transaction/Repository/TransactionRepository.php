@@ -92,7 +92,7 @@ class TransactionRepository extends AbstractRepository
             ->setParameter('type', TransactionTypeEnum::Income)
             ->select('SUM(t.amount)')
             ->getQuery()
-            ->getSingleScalarResult();
+            ->getSingleScalarResult() ?? 0;
     }
 
     public function findTotalExpenses(): int
@@ -102,7 +102,7 @@ class TransactionRepository extends AbstractRepository
             ->setParameter('type', TransactionTypeEnum::Expense)
             ->select('SUM(t.amount)')
             ->getQuery()
-            ->getSingleScalarResult();
+            ->getSingleScalarResult() ?? 0;
     }
 
     public function findAllWithPagination(array $queries): Paginator

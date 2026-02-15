@@ -24,7 +24,7 @@ class AccountRepository extends AbstractRepository
         return $this->createQueryBuilder('a')
             ->select('SUM(a.balance)')
             ->getQuery()
-            ->getSingleScalarResult();
+            ->getSingleScalarResult() ?? 0;
     }
 
     /**
